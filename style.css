@@ -19,15 +19,15 @@ body {
   background-color: var(--bg-color);
   color: var(--text-main);
   font-family: 'Merriweather', serif;
-  line-height: 1.8;
-  font-size: 18px;
+  line-height: 1.65;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* Layout */
 .container {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
@@ -51,6 +51,10 @@ h1 {
   position: relative;
   display: inline-block;
   white-space: nowrap;
+}
+
+a.magic-name {
+  cursor: pointer;
 }
 
 .hidden-surname {
