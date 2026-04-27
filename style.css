@@ -1,0 +1,311 @@
+/* style.css - Premium Typography & High Contrast Styling */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg-color: #fef7e8; /* Warm paper color */
+  --text-main: #111111; /* Off-black for high contrast but slightly softer than pure black */
+  --text-muted: #444444;
+  --accent-color: #8c1c13; /* Deep dark ruby/red accent for premium feel */
+  --border-color: #d1c8b4;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Merriweather', serif;
+  line-height: 1.8;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 3rem;
+  letter-spacing: -0.02em;
+}
+
+/* Identidade Mágica - Efeito Tinta Invisível */
+.magic-name {
+  cursor: default;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hidden-surname {
+  display: inline-flex;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  transition: max-width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease-in-out;
+  color: var(--text-muted);
+  font-style: italic;
+  font-weight: 300;
+  vertical-align: bottom;
+  padding-left: 0.3rem;
+}
+
+.magic-name:hover .hidden-surname {
+  opacity: 1;
+  max-width: 600px;
+}
+
+h2 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-top: 3rem;
+}
+
+p {
+  margin-bottom: 1.5rem;
+}
+
+a {
+  color: var(--text-main);
+  text-decoration-color: var(--accent-color);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
+}
+
+/* Business Card (Index) */
+.business-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 70vh;
+}
+
+.business-card .role {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+}
+
+/* Header & Footer */
+header {
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+header .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+nav a {
+  margin-left: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+}
+
+footer {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Blog List */
+.post-list {
+  list-style: none;
+}
+
+.post-item {
+  margin-bottom: 3rem;
+}
+
+.post-item .date {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-family: monospace;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.post-item h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.post-item h3 a {
+  text-decoration: none;
+}
+
+.post-item h3 a:hover {
+  text-decoration: underline;
+}
+
+.read-more {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Markdown Content Styles */
+.markdown-content pre {
+  background-color: #f4ecdf;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.markdown-content code {
+  background-color: #f4ecdf;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.markdown-content blockquote {
+  border-left: 4px solid var(--accent-color);
+  padding-left: 1.5rem;
+  margin-left: 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+  border: 1px solid var(--border-color);
+}
+
+/* Admin Form */
+.admin-card {
+  background-color: #fffaf0;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  font-family: 'Merriweather', serif;
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+button {
+  background-color: var(--text-main);
+  color: var(--bg-color);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--accent-color);
+}
+
+#output-container {
+  margin-top: 2rem;
+  display: none;
+}
+
+textarea#markdown-output {
+  height: 200px;
+  background-color: #f4ecdf;
+  font-family: monospace;
+}
+
+.instructions {
+  background-color: #e9f5e9;
+  border: 1px solid #c3e6c3;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #2e5c2e;
+}
+
+/* Utilities */
+.hidden {
+  display: none !important;
+}
+
+/* Loader */
+.loader {
+  font-style: italic;
+  color: var(--text-muted);
+}

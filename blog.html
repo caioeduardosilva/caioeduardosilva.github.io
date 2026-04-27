@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Portfolio</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">Caio.</a>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="blog.html">Blog</a>
+            </nav>
+        </header>
+
+        <main id="app">
+            <div id="loader" class="loader">Carregando...</div>
+            <div id="content"></div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Caio Eduardo Araujo da Silva. Design pensado para durar.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('post');
+            const loader = document.getElementById('loader');
+            const contentDiv = document.getElementById('content');
+
+            try {
+                if (postId) {
+                    // Load specific post
+                    const response = await fetch(`posts/${postId}.md`);
+                    if (!response.ok) throw new Error('Post não encontrado.');
+                    const markdownText = await response.text();
+                    
+                    // Strip frontmatter (simple regex)
+                    const contentWithoutFrontmatter = markdownText.replace(/---[\s\S]*?---/, '').trim();
+                    
+                    // Parse markdown
+                    const html = marked.parse(contentWithoutFrontmatter);
+                    
+                    contentDiv.innerHTML = `
+                        <a href="blog.html" style="display:inline-block; margin-bottom: 2rem;">&larr; Voltar para todos os posts</a>
+                        <article class="markdown-content">
+                            ${html}
+                        </article>
+                    `;
+                } else {
+                    // Load post list
+                    const response = await fetch('posts.json');
+                    if (!response.ok) throw new Error('Não foi possível carregar os posts.');
+                    const posts = await response.json();
+                    
+                    if (posts.length === 0) {
+                        contentDiv.innerHTML = '<p>Nenhum post publicado ainda.</p>';
+                    } else {
+                        let html = '<ul class="post-list">';
+                        posts.forEach(post => {
+                            html += `
+                                <li class="post-item">
+                                    <span class="date">${post.date}</span>
+                                    <h3><a href="blog.html?post=${post.id}">${post.title}</a></h3>
+                                    <p>${post.summary}</p>
+                                    <a href="blog.html?post=${post.id}" class="read-more">Leia mais &rarr;</a>
+                                </li>
+                            `;
+                        });
+                        html += '</ul>';
+                        contentDiv.innerHTML = `
+                            <h2>Últimos Escritos</h2>
+                            ${html}
+                        `;
+                    }
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<p style="color:var(--accent-color)">Erro: ${error.message}</p>`;
+            } finally {
+                loader.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

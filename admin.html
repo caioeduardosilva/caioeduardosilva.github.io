@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Criador de Posts</title>
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">Caio.</a>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="blog.html">Blog</a>
+            </nav>
+        </header>
+
+        <main>
+            <h2>Novo Post</h2>
+            
+            <div class="admin-card">
+                <form id="post-form">
+                    <div class="form-group">
+                        <label for="id">ID do Post (ex: meu-primeiro-post):</label>
+                        <input type="text" id="id" required placeholder="Usado na URL (sem espaços ou acentos)">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Título:</label>
+                        <input type="text" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Data (YYYY-MM-DD):</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="summary">Resumo:</label>
+                        <textarea id="summary" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Conteúdo (Markdown):</label>
+                        <textarea id="content" rows="10" required placeholder="# Título 1&#10;Seu texto aqui..."></textarea>
+                    </div>
+                    <button type="submit">Gerar Arquivos e Instruções</button>
+                </form>
+
+                <div id="output-container">
+                    <h3>1. Markdown do Post</h3>
+                    <p>Copie o texto abaixo e salve como <strong><span id="filename-preview"></span></strong> dentro da pasta <code>/posts/</code>.</p>
+                    <textarea id="markdown-output" readonly></textarea>
+                    <button type="button" id="copy-md-btn" style="margin-top: 0.5rem; background-color: var(--text-muted);">Copiar Markdown</button>
+
+                    <h3 style="margin-top: 2rem;">2. Atualizar posts.json</h3>
+                    <p>Adicione este bloco no início do array no seu arquivo <code>posts.json</code> (lembre-se de colocar a vírgula depois se não for o último):</p>
+                    <textarea id="json-output" readonly rows="7" style="background-color: #f4ecdf; font-family: monospace; width: 100%; padding: 0.8rem;"></textarea>
+                    <button type="button" id="copy-json-btn" style="margin-top: 0.5rem; background-color: var(--text-muted);">Copiar JSON</button>
+
+                    <div class="instructions">
+                        <h4>Guia de Hospedagem (GitHub Pages)</h4>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.6;">
+                            <li>No GitHub, crie um novo repositório chamado <code>caioeduardosilva.github.io</code> (ou dê outro nome se for enviar para subdiretório).</li>
+                            <li>Faça o upload/commit de todos os arquivos desta pasta para o repositório (`index.html`, `blog.html`, `style.css`, `posts.json`, pasta `posts`).</li>
+                            <li>No repositório, vá em <strong>Settings > Pages</strong> e garanta que está ativado para buscar da branch `main` ou `master` no root (`/`).</li>
+                            <li>Aguarde alguns minutos e seu site estará no ar! O GitHub trata tudo como site estático nativamente, e seu código já é 100% puro (sem build necessário).</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('date').valueAsDate = new Date();
+
+        document.getElementById('post-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('id').value.trim();
+            const title = document.getElementById('title').value.trim();
+            const date = document.getElementById('date').value;
+            const summary = document.getElementById('summary').value.trim();
+            const content = document.getElementById('content').value;
+            
+            // Format Markdown File Content
+            const markdownFileContent = `---
+title: ${title}
+date: ${date}
+summary: ${summary}
+---
+
+${content}`;
+
+            // Format JSON Block
+            const jsonBlock = `{
+    "id": "${id}",
+    "title": "${title}",
+    "date": "${date}",
+    "summary": "${summary}"
+}`;
+
+            document.getElementById('markdown-output').value = markdownFileContent;
+            document.getElementById('json-output').value = jsonBlock;
+            document.getElementById('filename-preview').innerText = `${id}.md`;
+            
+            document.getElementById('output-container').style.display = 'block';
+        });
+
+        document.getElementById('copy-md-btn').addEventListener('click', function() {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = document.getElementById('markdown-output').value;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            this.innerText = "Copiado!";
+            setTimeout(() => this.innerText = "Copiar Markdown", 2000);
+        });
+
+        document.getElementById('copy-json-btn').addEventListener('click', function() {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = document.getElementById('json-output').value;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            this.innerText = "Copiado!";
+            setTimeout(() => this.innerText = "Copiar JSON", 2000);
+        });
+    </script>
+</body>
+</html>
